@@ -1,0 +1,46 @@
+<.header>
+  Listing Uploads
+  <:actions>
+    <.link patch={~p"/uploads/new"}>
+      <.button>New Upload</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="uploads"
+  rows={@streams.files}
+  row_click={fn {_id, upload} -> JS.navigate(~p"/uploads/#{upload}") end}
+>
+  <:col :let={{_id, upload}} label="Filename"><%= upload.filename %></:col>
+  <:action :let={{_id, upload}}>
+    <div class="sr-only">
+      <.link navigate={~p"/uploads/#{upload}"}>Show</.link>
+    </div>
+    <.link patch={~p"/uploads/#{upload}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, upload}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: upload.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="upload-modal"
+  show
+  on_cancel={JS.navigate(~p"/uploads")}
+>
+  <.live_component
+    module={FileUploaderDemoWeb.UploadLive.FormComponent}
+    id={@file.id || :new}
+    title={@page_title}
+    action={@live_action}
+    upload={@file}
+    patch={~p"/uploads"}
+  />
+</.modal>

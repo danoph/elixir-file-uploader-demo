@@ -18,6 +18,13 @@ defmodule FileUploaderDemoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/uploads", UploadLive.Index, :index
+    live "/uploads/new", UploadLive.Index, :new
+    live "/uploads/:id/edit", UploadLive.Index, :edit
+
+    live "/uploads/:id", UploadLive.Show, :show
+    live "/uploads/:id/show/edit", UploadLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
