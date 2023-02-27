@@ -35,7 +35,7 @@ defmodule FileUploaderDemoWeb.UploadLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> allow_upload(:file, accept: :any, max_file_size: 80_000_000, external: &presign_upload/2)
+     |> allow_upload(:file, accept: :any, max_file_size: 800_000_000_000, external: &presign_upload/2)
      |> assign_form(changeset)}
   end
 
